@@ -1,0 +1,1 @@
+/Users/shuya/workspace/rusmo/target/package/rusmo-0.1.0/target/debug/rusmo: /Users/shuya/workspace/rusmo/target/package/rusmo-0.1.0/src/file.rs /Users/shuya/workspace/rusmo/target/package/rusmo-0.1.0/src/main.rs

@@ -1,0 +1,22 @@
+[package]
+name = "rusmo"
+version = "0.1.0"
+authors = ["Hasu <dev.hasu008@gmail.com>"]
+edition = "2018"
+license = "MIT"
+
+description = "Assist your memo life to improve your productivity"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+redme = "README.md"
+
+keywords = ["rusmo","markdown","memo"]
+categories = ["command-line-interface"]
+
+[dependencies]
+docopt = "1"
+serde = { version = "1", features = ["derive"]  }
+dirs = "3.0"
+ansi_term = "0.12"
+toml = "0.4.5"
+chrono = "0.4.19"
