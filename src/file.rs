@@ -34,7 +34,7 @@ fn generate_config()->std::io::Result<()>{
     let raw_path = dirs::home_dir().unwrap();
     let path = raw_path.into_os_string().into_string().unwrap();
     let _posts_dir = format!("{}{}",path,"/rlsmemo/_posts/");
-    let config_dir = format!("{}{}",path,"/.config/rlsmemo/");
+    let config_dir = format!("{}{}",path,"/rlsmemo/");
 
 
 
@@ -48,6 +48,7 @@ fn generate_config()->std::io::Result<()>{
 
 
     let config_file_path = format!("{}{}",config_dir,"Setting.toml");
+    println!("{}",config_file_path);
 
     let mut file = File::create(config_file_path)?;
     let toml = toml::to_string(&setting).unwrap();
@@ -68,7 +69,7 @@ fn need_input ()-> String{
 
 fn check_dir_exsists(path:&str)->std::io::Result<()>{
     if !Path::new(&path).exists(){
-        fs::create_dir(&path)?;
+        fs::create_dir_all(&path)?;
     }
     Ok(())
 }

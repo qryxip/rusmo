@@ -70,8 +70,10 @@ Options:
 fn main() {
 let raw_path = dirs::home_dir().unwrap();
     let path = raw_path.into_os_string().into_string().unwrap();
-    let config_dir = format!("{}{}",path,"/.config/rlsmemo/");
+    let config_dir = format!("{}{}",path,"/rlsmemo/");
     let config_file_path = format!("{}{}",config_dir,"Setting.toml");
+
+    println!("{}",config_file_path);
 
     file::check_config_exsists(&config_file_path);
 
