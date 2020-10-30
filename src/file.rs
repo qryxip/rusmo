@@ -48,7 +48,6 @@ fn generate_config()->std::io::Result<()>{
 
 
     let config_file_path = format!("{}{}",config_dir,"Setting.toml");
-    println!("{}",config_file_path);
 
     let mut file = File::create(config_file_path)?;
     let toml = toml::to_string(&setting).unwrap();
