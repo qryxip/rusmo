@@ -73,7 +73,6 @@ let raw_path = dirs::home_dir().unwrap();
     let config_dir = format!("{}{}",path,"/rlsmemo/");
     let config_file_path = format!("{}{}",config_dir,"Setting.toml");
 
-    println!("{}",config_file_path);
 
     file::check_config_exsists(&config_file_path);
 
