@@ -1,1 +1,1 @@
-/home/vagrant/workspace/rusmo/target/debug/rusmo: /home/vagrant/workspace/rusmo/src/file.rs /home/vagrant/workspace/rusmo/src/main.rs
+/Users/shuya/workspace/rusmo/target/debug/rusmo: /Users/shuya/workspace/rusmo/src/file.rs /Users/shuya/workspace/rusmo/src/main.rs
