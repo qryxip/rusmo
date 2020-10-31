@@ -2,6 +2,7 @@
 <h1>rusmo</h1>
 rusmo is assist your memo life to improve your productivity. 
 
+![demo](https://raw.githubusercontent.com/wiki/hashue/rusmo/images/rusmo-demo.gif)
 rusmo is a command which is create,edit,delete markdown file on your favorit editor.
 </div>
 
