@@ -97,7 +97,6 @@ let raw_path = dirs::home_dir().unwrap();
     let args: Args = Docopt::new(USAGE) .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
-    dbg!(&args);
 
     if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty(){
         let filename:String = format!("{}{}",args.flag_t,".md");
