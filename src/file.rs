@@ -79,6 +79,10 @@ pub fn open_editor(path:&str,title:String,editor:&str){
     Command::new(editor).arg(filename).exec();
 }
 
+pub fn create_with_title(path:&str,editor:&str,filename:&str){
+
+}
+
 
 pub fn create(path:&str,editor:&str){
 

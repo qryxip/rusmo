@@ -25,7 +25,8 @@ pub struct Args {
     cmd_e:bool,
     arg_filename: String,
     flag_help: bool,
-    flag_version: bool
+    flag_version: bool,
+    flag_t:String
 }
 
 
@@ -53,7 +54,7 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 static USAGE: &'static str = "
 Usage:
   rlsmemo
-  rlsmemo (new    | n)
+  rlsmemo (new    | n) [-t <filename>] 
   rlsmemo (edit   | e) <filename>
   rlsmemo (list   | l)
   rlsmemo (config | c) 
@@ -63,6 +64,8 @@ Usage:
 Options:
   -h, --help     Show this screen
   -v, --version  Show version
+  -t <filename>  create with title
+
 ";
 
 
@@ -94,8 +97,15 @@ let raw_path = dirs::home_dir().unwrap();
     let args: Args = Docopt::new(USAGE) .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
+    dbg!(&args);
+
+    if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty(){
+        let filename:String = format!("{}{}",args.flag_t,".md");
+        file::open_editor(&full_path,filename,&editor);
+    }
 
     if args.cmd_new || args.cmd_n{
+        println!("{}",args.arg_filename);
         file::create(&full_path,&editor);
     }
     
@@ -118,6 +128,7 @@ let raw_path = dirs::home_dir().unwrap();
     if args.flag_version{
         println!("{}",VERSION);
     }
+
 
     if !args.cmd_new && !args.cmd_n && !args.cmd_delete && !args.cmd_d && !args.cmd_list && !args.cmd_l && !args.cmd_c && !args.cmd_config&& args.arg_filename=="" && !args.flag_version{
         println!("{}",USAGE);
