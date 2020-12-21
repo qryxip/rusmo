@@ -79,6 +79,12 @@ pub fn open_editor(path:&str,title:String,editor:&str){
     Command::new(editor).arg(filename).exec();
 }
 
+pub fn create_with_filename(path:&str,editor:&str,name:String)->std::io::Result<()>{
+    check_dir_exsists(&path);
+    open_editor(&path,format!("{}{}",name,EXPAND),&editor);
+    Ok(())
+}
+
 
 
 pub fn create(path:&str,editor:&str){
