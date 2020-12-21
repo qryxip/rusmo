@@ -1,6 +1,6 @@
 [package]
 name = "rusmo"
-version = "1.0"
+version = "0.1.2"
 authors = ["Hasu <dev.hasu008@gmail.com>"]
 edition = "2018"
 license = "MIT"
