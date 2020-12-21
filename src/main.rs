@@ -98,10 +98,10 @@ let raw_path = dirs::home_dir().unwrap();
         .unwrap_or_else(|e| e.exit());
 
 
-    if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty(){
+     if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty(){
         let filename:String = format!("{}{}",args.flag_t,".md");
-        file::open_editor(&full_path,filename,&editor);
-    }
+         file::open_editor(&full_path,filename,&editor);
+     }
 
     if args.cmd_new || args.cmd_n{
         println!("{}",args.arg_filename);
