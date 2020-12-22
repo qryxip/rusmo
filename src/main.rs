@@ -100,8 +100,7 @@ let raw_path = dirs::home_dir().unwrap();
 
     if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty(){
         file::create_with_filename(&full_path,&editor,args.flag_t);
-     }
-
+    }
     if args.cmd_new || args.cmd_n{
         println!("{}",args.arg_filename);
         file::create(&full_path,&editor);
