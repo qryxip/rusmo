@@ -1,6 +1,5 @@
 use ansi_term::Colour;
-use chrono::Utc;
-use serde::{Deserialize, Serialize};
+use chrono::Utc; use serde::{Deserialize, Serialize};
 use std::fs::{self, File};
 use std::io;
 use std::io::Write;
@@ -65,13 +64,14 @@ fn check_dir_exsists(path: &str) -> std::io::Result<()> {
 }
 
 pub fn open_editor(path: &str, title: String, editor: &str) {
+    
     let filename = format!("{}{}", &path, &title);
 
     Command::new(editor).arg(filename).exec();
 }
 
 pub fn create_with_filename(path: &str, editor: &str, name: String) -> std::io::Result<()> {
-    check_dir_exsists(&path);
+    check_dir_exsists(&path)?;
     open_editor(&path, format!("{}{}", name, EXPAND), &editor);
     Ok(())
 }
@@ -88,6 +88,10 @@ pub fn create(path: &str, editor: &str) {
         println!("{}", title);
     } else if !title.is_empty() {
         title = format!("{}{}", title, EXPAND);
+    }
+
+    if title.contains(" "){
+        title = title.replace(" ", "-");
     }
 
     open_editor(&path, title, &editor);

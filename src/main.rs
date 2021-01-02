@@ -28,6 +28,8 @@ pub struct Args {
     flag_t: String,
 }
 
+
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Setting {
     editor: String,
@@ -153,5 +155,7 @@ fn list(path: &str) {
             continue;
         }
         println!("{}", list_color.paint(filename));
+        
     }
 }
+
