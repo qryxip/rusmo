@@ -1,6 +1,6 @@
 <div align="center">
 <h1>rusmo</h1>
-rusmo is assist your memo life to improve your productivity. 
+rusmo assist your memo life to improve your productivity. 
 
 ![demo](https://raw.githubusercontent.com/wiki/hashue/rusmo/images/rusmo-demo.gif)
 
@@ -11,7 +11,7 @@ rusmo is a command which is create,edit,delete markdown file on your favorit edi
 ```
 Usage:
   rlsmemo
-  rlsmemo (new    | n)
+  rlsmemo (new    | n) [-t <filename>] 
   rlsmemo (edit   | e) <filename>
   rlsmemo (list   | l)
   rlsmemo (config | c) 
@@ -21,6 +21,8 @@ Usage:
 Options:
   -h, --help     Show this screen
   -v, --version  Show version
+  -t <filename>  create with title
+
   ``````
 
 # Installation
