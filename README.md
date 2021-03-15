@@ -39,7 +39,9 @@ run `rusmo config` or `rusmo c`
 
 ``````
 editor = "vim" #your favorite editor
-path = "/path/to/you/"  #markdown file will save here
+path = "/path/to/you/"  #file will save here
+extension = "md" #your favorite file extension
+
 ``````
 # License
 MIT

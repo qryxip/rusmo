@@ -32,7 +32,7 @@ pub struct Args {
 struct Setting {
     editor: String,
     path: String,
-    expand: String,
+    extension: String,
 }
 
 fn read_setting_info(path: String) -> Result<String, String> {
@@ -89,19 +89,19 @@ fn main() {
 
     let full_path = info.path;
     let editor = info.editor;
-    let expand = info.expand;
+    let extension = info.extension;
 
     let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
     if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty() {
-        file::create_with_filename(&full_path, &editor, args.flag_t, &expand);
+        file::create_with_filename(&full_path, &editor, args.flag_t, &extension);
     }
 
     if args.cmd_new || args.cmd_n {
         println!("{}", args.arg_filename);
-        file::create(&full_path, &editor, &expand);
+        file::create(&full_path, &editor, &extension);
     }
 
     if args.cmd_list || args.cmd_l {

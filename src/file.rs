@@ -16,7 +16,7 @@ extern crate toml;
 struct Setting {
     editor: String,
     path: String,
-    expand: String,
+    extension: String,
 }
 
 pub fn check_config_exsists(path: &str) -> std::io::Result<()> {
@@ -38,7 +38,7 @@ fn generate_config() -> std::io::Result<()> {
     let setting = Setting {
         editor: "vim".into(),
         path: _posts_dir.into(),
-        expand: "md".into(),
+        extension: "md".into(),
     };
 
     let config_file_path = format!("{}{}", config_dir, "Setting.toml");
@@ -74,14 +74,14 @@ pub fn create_with_filename(
     path: &str,
     editor: &str,
     name: String,
-    expand: &str,
+    extension: &str,
 ) -> std::io::Result<()> {
     check_dir_exsists(&path)?;
-    open_editor(&path, format!("{}.{}", name, &expand), &editor);
+    open_editor(&path, format!("{}.{}", name, &extension), &editor);
     Ok(())
 }
 
-pub fn create(path: &str, editor: &str, expand: &str) {
+pub fn create(path: &str, editor: &str, extension: &str) {
     check_dir_exsists(&path);
 
     print!("Title :");
@@ -89,10 +89,14 @@ pub fn create(path: &str, editor: &str, expand: &str) {
     let mut title = need_input();
 
     if title.is_empty() {
-        title = format!("{}.{}", Utc::now().format("%Y-%m-%d").to_string(), &expand);
+        title = format!(
+            "{}.{}",
+            Utc::now().format("%Y-%m-%d").to_string(),
+            &extension
+        );
         println!("{}", title);
     } else if !title.is_empty() {
-        title = format!("{}.{}", title, &expand);
+        title = format!("{}.{}", title, &extension);
     }
 
     if title.contains(" ") {
