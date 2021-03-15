@@ -28,15 +28,14 @@ pub struct Args {
     flag_t: String,
 }
 
-
-
 #[derive(Debug, Serialize, Deserialize)]
 struct Setting {
     editor: String,
     path: String,
+    expand: String,
 }
 
-fn read_file(path: String) -> Result<String, String> {
+fn read_setting_info(path: String) -> Result<String, String> {
     let mut file_content = String::new();
 
     let mut fr = fs::File::open(path)
@@ -76,11 +75,12 @@ fn main() {
 
     file::check_config_exsists(&config_file_path);
 
-    let s = match read_file(format!("{}{}", config_dir, "Setting.toml").to_owned()) {
+    let s = match read_setting_info(format!("{}{}", config_dir, "Setting.toml").to_owned()) {
         Ok(s) => s,
         Err(e) => panic!("fail to read file: {}", e),
     };
 
+    //Read setting from Setting.toml
     let setting: Result<Setting, toml::de::Error> = toml::from_str(&s);
     let info = match setting {
         Ok(p) => p,
@@ -89,17 +89,19 @@ fn main() {
 
     let full_path = info.path;
     let editor = info.editor;
+    let expand = info.expand;
 
     let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
     if args.cmd_new && !args.flag_t.is_empty() || args.cmd_n && !args.flag_t.is_empty() {
-        file::create_with_filename(&full_path, &editor, args.flag_t);
+        file::create_with_filename(&full_path, &editor, args.flag_t, &expand);
     }
+
     if args.cmd_new || args.cmd_n {
         println!("{}", args.arg_filename);
-        file::create(&full_path, &editor);
+        file::create(&full_path, &editor, &expand);
     }
 
     if args.cmd_list || args.cmd_l {
@@ -155,7 +157,5 @@ fn list(path: &str) {
             continue;
         }
         println!("{}", list_color.paint(filename));
-        
     }
 }
-
