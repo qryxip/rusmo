@@ -1,6 +1,6 @@
 <div align="center">
 <h1>rusmo</h1>
-rusmo assist your memo life to improve your productivity. 
+rusmo assist your memo life to improve your productivity.
 
 ![demo](https://raw.githubusercontent.com/wiki/hashue/rusmo/images/rusmo-demo.gif)
 
@@ -11,10 +11,10 @@ rusmo is a command which is create,edit,delete markdown file on your favorit edi
 ```
 Usage:
   rlsmemo
-  rlsmemo (new    | n) [-t <filename>] 
+  rlsmemo (new    | n) [-t <filename>]
   rlsmemo (edit   | e) <filename>
   rlsmemo (list   | l)
-  rlsmemo (config | c) 
+  rlsmemo (config | c)
   rlsmemo (delete | d) <filename>
   rlsmemo (--help | --version)
 
@@ -38,9 +38,9 @@ You can use the cargo install command:
 run `rusmo config` or `rusmo c`
 
 ``````
-editor = "vim" #your favorite editor
+editor = "vim"          #your favorite editor
 path = "/path/to/you/"  #file will save here
-extension = "md" #your favorite file extension
+extension = "md"        #your favorite file extension
 
 ``````
 # License

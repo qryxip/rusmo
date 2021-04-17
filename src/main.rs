@@ -53,10 +53,10 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 static USAGE: &'static str = "
 Usage:
   rlsmemo
-  rlsmemo (new    | n) [-t <filename>] 
-  rlsmemo (edit   | e) <filename>
+  rlsmemo (new    | n) [-t <filename>]
+  rlsmemo (edit   | e) filename
   rlsmemo (list   | l)
-  rlsmemo (config | c) 
+  rlsmemo (config | c)
   rlsmemo (delete | d) <filename>
   rlsmemo (--help | --version)
 
