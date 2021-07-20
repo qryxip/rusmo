@@ -156,6 +156,6 @@ fn list(path: &str) {
         if filename.starts_with('.') {
             continue;
         }
-        println!("{}", list_color.paint(filename));
+        println!("{}", filename);
     }
 }
