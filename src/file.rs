@@ -128,9 +128,9 @@ pub fn delete(path: &str, filename: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-pub fn edit(path: &str, filename: &str, editor: &str) {
-    let title = filename.to_string();
-    open_editor(&path, title, &editor);
+pub fn edit(path: &str, editor: &str) {
+    Command::new("sh").arg("-c").arg(format!("{} $(/bin/ls {} | fzf)", editor,path )).exec();
+
 }
 
 pub fn config(file_path: &str, editor: &str) {
