@@ -52,13 +52,13 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 static USAGE: &'static str = "
 Usage:
-  rlsmemo
-  rlsmemo (new    | n) [-t <filename>]
-  rlsmemo (edit   | e) filename
-  rlsmemo (list   | l)
-  rlsmemo (config | c)
-  rlsmemo (delete | d) <filename>
-  rlsmemo (--help | --version)
+  rusmo
+  rusmo (new    | n) [-t <filename>]
+  rusmo (edit   | e)
+  rusmo (list   | l)
+  rusmo (config | c)
+  rusmo (delete | d) <filename>
+  rusmo (--help | --version)
 
 Options:
   -h, --help     Show this screen
@@ -70,7 +70,7 @@ Options:
 fn main() {
     let raw_path = dirs::home_dir().unwrap();
     let path = raw_path.into_os_string().into_string().unwrap();
-    let config_dir = format!("{}{}", path, "/rlsmemo/");
+    let config_dir = format!("{}{}", path, "/rusmo/");
     let config_file_path = format!("{}{}", config_dir, "Setting.toml");
 
     file::check_config_exsists(&config_file_path);
@@ -117,7 +117,7 @@ fn main() {
     }
 
     if args.cmd_e || args.cmd_edit {
-        file::edit(&full_path, &args.arg_filename, &editor);
+        file::edit(&full_path, &editor);
     }
 
     if args.flag_version {
@@ -156,6 +156,6 @@ fn list(path: &str) {
         if filename.starts_with('.') {
             continue;
         }
-        println!("{}", list_color.paint(filename));
+        println!("{}", filename);
     }
 }

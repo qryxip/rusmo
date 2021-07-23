@@ -81,6 +81,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "cmd_lib"
+version = "0.6.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "176fa86bb8e6f5d0b81876079829c837e6a1e4c1a816446939315a986c6a96d5"
+
+[[package]]
 name = "constant_time_eq"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -236,6 +242,7 @@ version = "0.1.4"
 dependencies = [
  "ansi_term",
  "chrono",
+ "cmd_lib",
  "dirs",
  "docopt",
  "serde",

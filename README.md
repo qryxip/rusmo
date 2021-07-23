@@ -10,13 +10,13 @@ rusmo is a command which is create,edit,delete markdown file on your favorit edi
 # Usage
 ```
 Usage:
-  rlsmemo
-  rlsmemo (new    | n) [-t <filename>]
-  rlsmemo (edit   | e) <filename>
-  rlsmemo (list   | l)
-  rlsmemo (config | c)
-  rlsmemo (delete | d) <filename>
-  rlsmemo (--help | --version)
+  rusmo
+  rusmo (new    | n) [-t <filename>]
+  rusmo (edit   | e) <filename>
+  rusmo (list   | l)
+  rusmo (config | c)
+  rusmo (delete | d) <filename>
+  rusmo (--help | --version)
 
 Options:
   -h, --help     Show this screen
@@ -24,6 +24,9 @@ Options:
   -t <filename>  create with title
 
   ``````
+
+# Requiment
+- [fzf](https://github.com/junegunn/fzf)
 
 # Installation
 rusmo is available for macOS and Linux.
