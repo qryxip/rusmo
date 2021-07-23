@@ -11,6 +11,7 @@ use std::process::Command;
 extern crate dirs;
 extern crate serde;
 extern crate toml;
+extern crate cmd_lib;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Setting {
@@ -107,6 +108,7 @@ pub fn create(path: &str, editor: &str, extension: &str) {
 }
 
 pub fn delete(path: &str, filename: &str) -> std::io::Result<()> {
+
     print!(
         "{}",
         Colour::Red.paint("Are you sure you want to delete the file? (y/n):")
@@ -128,9 +130,13 @@ pub fn delete(path: &str, filename: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-pub fn edit(path: &str, editor: &str) {
-    Command::new("sh").arg("-c").arg(format!("{} $(/bin/ls {} | fzf)", editor,path )).exec();
+pub fn edit(path: &str, editor: &str) -> std::io::Result<()>{
+    let target_filename = cmd_lib::run_fun!("ls {} | fzf ",&path)?;
 
+    Command::new(editor)
+        .arg(format!("{}/{}",path,target_filename.trim()))
+        .exec();
+    Ok(())
 }
 
 pub fn config(file_path: &str, editor: &str) {
