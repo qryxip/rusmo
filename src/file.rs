@@ -2,16 +2,18 @@ use ansi_term::Colour;
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::fs::{self, File};
-use std::io;
-use std::io::Write;
+use std::io::*;
 use std::os::unix::process::CommandExt;
-use std::path::Path;
 use std::process::Command;
+use std::path::Path;
+use rusmo::*;
+
 
 extern crate dirs;
 extern crate serde;
 extern crate toml;
 extern crate cmd_lib;
+
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Setting {
@@ -28,13 +30,11 @@ pub fn check_config_exsists(path: &str) -> std::io::Result<()> {
 }
 
 fn generate_config() -> std::io::Result<()> {
-    let raw_path = dirs::home_dir().unwrap();
-    let path = raw_path.into_os_string().into_string().unwrap();
-    let _posts_dir = format!("{}{}", path, "/rlsmemo/_posts/");
-    let config_dir = format!("{}{}", path, "/rlsmemo/");
+    let _posts_dir = format!("{}{}", utils::home_dir(), "/rlsmemo/_posts/");
+    let config_dir = format!("{}{}", utils::home_dir(), "/rlsmemo/");
 
-    check_dir_exsists(&config_dir)?;
-    check_dir_exsists(&_posts_dir)?;
+    utils::check_dir_exsists(&config_dir)?;
+    utils::check_dir_exsists(&_posts_dir)?;
 
     let setting = Setting {
         editor: "vim".into(),
@@ -42,9 +42,8 @@ fn generate_config() -> std::io::Result<()> {
         extension: "md".into(),
     };
 
-    let config_file_path = format!("{}{}", config_dir, "Setting.toml");
 
-    let mut file = File::create(config_file_path)?;
+    let mut file = File::create(format!("{}{}", config_dir, "Setting.toml"))?;
     let toml = toml::to_string(&setting).unwrap();
     write!(file, "{}", toml)?;
     file.flush()?;
@@ -52,93 +51,60 @@ fn generate_config() -> std::io::Result<()> {
     Ok(())
 }
 
-fn need_input() -> String {
-    let mut word = String::new();
-    io::stdin().read_line(&mut word).ok();
-    return word.trim().to_string();
+
+
+pub fn open_editor(title: String) {
+    let filename = format!("{}/{}", utils::get_toml_env().path(), &title);
+    Command::new(utils::get_toml_env().editor()).arg(filename).exec();
 }
 
-fn check_dir_exsists(path: &str) -> std::io::Result<()> {
-    if !Path::new(&path).exists() {
-        fs::create_dir_all(&path)?;
-    }
+pub fn create_with_filename(name: String) -> std::io::Result<()> {
+    open_editor(format_title(name));
     Ok(())
 }
 
-pub fn open_editor(path: &str, title: String, editor: &str) {
-    let filename = format!("{}{}", &path, &title);
-
-    Command::new(editor).arg(filename).exec();
-}
-
-pub fn create_with_filename(
-    path: &str,
-    editor: &str,
-    name: String,
-    extension: &str,
-) -> std::io::Result<()> {
-    check_dir_exsists(&path)?;
-    open_editor(&path, format!("{}.{}", name, &extension), &editor);
-    Ok(())
-}
-
-pub fn create(path: &str, editor: &str, extension: &str) {
-    check_dir_exsists(&path);
-
+pub fn create() {
     print!("Title :");
-    io::stdout().flush().unwrap();
-    let mut title = need_input();
+    stdout().flush().unwrap();
+    let title = utils::need_input();
+    open_editor(format_title(title));
+}
 
-    if title.is_empty() {
-        title = format!(
-            "{}.{}",
-            Utc::now().format("%Y-%m-%d").to_string(),
-            &extension
-        );
-        println!("{}", title);
-    } else if !title.is_empty() {
-        title = format!("{}.{}", title, &extension);
-    }
 
+fn format_title(mut title:String)->String{
     if title.contains(" ") {
         title = title.replace(" ", "-");
+    }else if title.is_empty(){
+        title = Utc::now().format("%Y-%m-%d").to_string();
     }
 
-    open_editor(&path, title, &editor);
+    return format!("{}.{}",&title,utils::get_toml_env().extension());
 }
 
-pub fn delete(path: &str, filename: &str) -> std::io::Result<()> {
+pub fn delete(filename: &str) -> std::io::Result<()> {
 
-    print!(
-        "{}",
-        Colour::Red.paint("Are you sure you want to delete the file? (y/n):")
-    );
-    io::stdout().flush().unwrap();
+    print!("{}",Colour::Red.paint("Are you sure you want to delete the file? (y/n):"));
+    stdout().flush().unwrap();
 
-    let res = need_input();
+    let res = utils::need_input();
 
     if res == "y" {
-        fs::remove_file(format!("{}{}", &path, &filename)).unwrap();
-        let deleted_file_path = format!("{}{}", &path, &filename);
-
-        println!(
-            "{}{}",
-            Colour::Yellow.paint("Deleted :"),
-            Colour::Yellow.paint(deleted_file_path)
-        );
+        let deleted_file_path = format!("{}/{}", utils::get_toml_env().path(), &filename);
+        fs::remove_file(&deleted_file_path).unwrap();
+        println!("{}",Colour::Yellow.paint(format!("Deleted : {}",deleted_file_path)));
     }
     Ok(())
 }
 
-pub fn edit(path: &str, editor: &str) -> std::io::Result<()>{
-    let target_filename = cmd_lib::run_fun!("ls {} | fzf ",&path)?;
+pub fn edit() -> std::io::Result<()>{
+    let target_filename = cmd_lib::run_fun!("ls {} | fzf ",utils::get_toml_env().path())?;
 
-    Command::new(editor)
-        .arg(format!("{}/{}",path,target_filename.trim()))
+    Command::new(utils::get_toml_env().editor())
+        .arg(format!("{}/{}",utils::get_toml_env().path(),target_filename.trim()))
         .exec();
     Ok(())
 }
 
-pub fn config(file_path: &str, editor: &str) {
-    Command::new(&editor).arg(&file_path).exec();
+pub fn config(file_path: &str) {
+    Command::new(utils::get_toml_env().editor()).arg(&file_path).exec();
 }
